@@ -72,3 +72,61 @@ const images = [
     },
 ];
 
+const container = document.querySelector(".gallery");
+
+container.innerHTML = createImg(images);
+
+
+function createImg(arr) {
+    return arr.map(
+        ({preview, original, description}) =>`
+        <li class="gallery-item">
+            <a class="gallery-link" href="${original}">
+                <img
+                class="gallery-image"
+                src="${preview}"
+                data-source="${original}"
+                alt="${description}"
+                />
+            </a>
+        </li>
+        `
+    )
+    .join("");
+}
+
+// const galleryItems = images.map(({ preview, original, description }) => {
+//     const galleryItem = document.createElement("li");
+//     galleryItem.classList.add("gallery-item");
+
+//     const imgLink = document.createElement("a");
+//     imgLink.classList.add("gallery-link");
+//     imgLink.href = original;
+
+//     const Img = document.createElement("img");
+//     Img.classList.add("gallery-image");
+//     Img.src = preview;
+//     Img.dataset.source = original;
+//     Img.alt = description;
+//     Img.style.width = "300px";
+//     Img.style.height = "200px";
+
+//     imgLink.appendChild(Img);
+//     galleryItem.appendChild(imgLink);
+//     return galleryItem;
+// });
+
+// galleryItems.forEach(galleryItem => {
+//     container.appendChild(galleryItem);
+// });
+
+container.addEventListener('click', function(event) {
+
+    event.preventDefault();
+
+    if (event.target.tagName === 'IMG') {
+        const ImageSource = event.target.dataset.source;
+        const lightbox = basicLightbox.create(`<img src="${ImageSource}">`);
+        lightbox.show();
+    }
+});
